@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <title>Notatapplikasjon</title>
+</head>
+<body>
+  <h1>Notatapplikasjon</h1>
+
+  <h2>Opprett notat</h2>
+  <input type="text" id="noteInput" placeholder="Skriv et notat">
+  <button onclick="createNote()">Lagre notat</button>
+
+  <h2>Opprett todo</h2>
+  <input type="text" id="todoInput" placeholder="Skriv en oppgave">
+  <button onclick="createTodo()">Legg til todo</button>
+
+  <h2>Notater</h2>
+  <ul id="notesList"></ul>
+
+  <h2>Todo-liste</h2>
+  <ul id="todosList"></ul>
+
+  <script src="app.js"></script>
+</body>
+</html>
