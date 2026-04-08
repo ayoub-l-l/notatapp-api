@@ -1,77 +1,95 @@
-// Hent lagrede notater og todoer, eller start med tomme lister
-let notesJSON = JSON.parse(localStorage.getItem("notes")) || [];
-let todosJSON = JSON.parse(localStorage.getItem("todos")) || [];
+let tempTodoItems = [];
 
-// Funksjon som viser alt i HTML
-function render() {
-  let notesList = document.getElementById("notesList");
-  let todosList = document.getElementById("todosList");
-
-  // Tøm listene først
-  notesList.innerHTML = "";
-  todosList.innerHTML = "";
-
-  // Vis notater
-  notesJSON.forEach(function(note) {
-    let li = document.createElement("li");
-    li.textContent = note.text;
-    notesList.appendChild(li);
-  });
-
-  // Vis todoer
-  todosJSON.forEach(function(todo, index) {
-    let li = document.createElement("li");
-
-    // Lag avkryssingsboks for "done"
-    let checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.checked = todo.done;
-    checkbox.onclick = function() {
-      todo.done = checkbox.checked;
-      localStorage.setItem("todos", JSON.stringify(todosJSON));
-      render();
-    };
-
-    li.appendChild(checkbox);
-    let textNode = document.createTextNode(" " + todo.text);
-    li.appendChild(textNode);
-
-    todosList.appendChild(li);
-  });
-}
-
-// Kjør render ved lasting
-render();
-
-// Opprett nytt notat
+// ---------- Notater ----------
 function createNote() {
-  let input = document.getElementById("noteInput");
-  let text = input.value.trim();
+  let title = document.getElementById("noteTitle").value;
+  let text = document.getElementById("noteText").value;
+  if (!title || !text) return;
 
-  if (text === "") return;
-
-  let note = { text: text, timestamp: new Date().toISOString() };
-  notesJSON.push(note);
-
-  // Lagre i localStorage
-  localStorage.setItem("notes", JSON.stringify(notesJSON));
-
-  input.value = "";
-  render();
+  fetch("/notes", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title, text })
+  }).then(() => {
+    document.getElementById("noteTitle").value = "";
+    document.getElementById("noteText").value = "";
+    getNotes();
+  });
 }
 
-// Opprett ny todo
+function getNotes() {
+  fetch("/notes")
+    .then(res => res.json())
+    .then(notes => {
+      let list = document.getElementById("notesList");
+      list.innerHTML = "";
+      for (let note of notes) {
+        let li = document.createElement("li");
+        li.textContent = `${note.title}: ${note.text}`;
+        list.appendChild(li);
+      }
+    });
+}
+
+// ---------- Todo ----------
+function addTodoItem() {
+  let itemText = document.getElementById("todoItem").value;
+  if (!itemText) return;
+
+  tempTodoItems.push({ text: itemText, done: false });
+  document.getElementById("todoItem").value = "";
+  renderTempTodoList();
+}
+
+function renderTempTodoList() {
+  let list = document.getElementById("todoTempList");
+  list.innerHTML = "";
+  for (let item of tempTodoItems) {
+    let li = document.createElement("li");
+    li.textContent = `${item.text} [${item.done ? "✔" : "✖"}]`;
+    list.appendChild(li);
+  }
+}
+
 function createTodo() {
-  let input = document.getElementById("todoInput");
-  let text = input.value.trim();
+  let title = document.getElementById("todoTitle").value;
+  if (!title || tempTodoItems.length === 0) return;
 
-  if (text === "") return;
-
-  let todo = { text: text, done: false };
-  todosJSON.push(todo);
-
-  localStorage.setItem("todos", JSON.stringify(todosJSON));
-
-  input.value = "";
-  render();
+  fetch("/todos", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title, items: tempTodoItems })
+  }).then(() => {
+    document.getElementById("todoTitle").value = "";
+    tempTodoItems = [];
+    document.getElementById("todoTempList").innerHTML = "";
+    getTodos();
+  });
 }
+
+function getTodos() {
+  fetch("/todos")
+    .then(res => res.json())
+    .then(todos => {
+      let container = document.getElementById("todosList");
+      container.innerHTML = "";
+      for (let todo of todos) {
+        let div = document.createElement("div");
+        let h3 = document.createElement("h3");
+        h3.textContent = todo.title;
+        div.appendChild(h3);
+        let ul = document.createElement("ul");
+        for (let item of todo.items) {
+          let li = document.createElement("li");
+          li.textContent = `${item.text} [${item.done ? "✔" : "✖"}]`;
+          ul.appendChild(li);
+        }
+        div.appendChild(ul);
+        container.appendChild(div);
+      }
+    });
+}
+
+// Hent alt når siden lastes
+getNotes();
+getTodos();

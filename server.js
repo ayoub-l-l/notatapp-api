@@ -59,4 +59,4 @@ app.post("/todos", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server kjører på http://localhost:${PORT}`);
-});
+}); 

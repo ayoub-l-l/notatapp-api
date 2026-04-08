@@ -8,20 +8,24 @@
 <body>
   <h1>Notatapplikasjon</h1>
 
-  <h2>Opprett notat</h2>
-  <input type="text" id="noteInput" placeholder="Skriv et notat">
-  <button onclick="createNote()">Lagre notat</button>
+<h2>Opprett notat</h2>
+<input type="text" id="noteTitle" placeholder="Tittel">
+<input type="text" id="noteText" placeholder="Tekst">
+<button onclick="createNote()">Lagre notat</button>
 
-  <h2>Opprett todo</h2>
-  <input type="text" id="todoInput" placeholder="Skriv en oppgave">
-  <button onclick="createTodo()">Legg til todo</button>
+<h2>Opprett todo</h2>
+<input type="text" id="todoTitle" placeholder="Tittel">
+<input type="text" id="todoItem" placeholder="Legg til element">
+<button onclick="addTodoItem()">Legg til element</button>
+<button onclick="createTodo()">Lagre todo-liste</button>
+<ul id="todoTempList"></ul>
 
-  <h2>Notater</h2>
-  <ul id="notesList"></ul>
+<h2>Notater</h2>
+<ul id="notesList"></ul>
 
-  <h2>Todo-liste</h2>
-  <ul id="todosList"></ul>
+<h2>Todo-lister</h2>
+<div id="todosList"></div>
 
-  <script src="script.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
