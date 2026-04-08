@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <title>Notatapplikasjon</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Notatapplikasjon</h1>
+
+  <h2>Opprett notat</h2>
+  <input type="text" id="noteTitle" placeholder="Tittel">
+  <input type="text" id="noteText" placeholder="Notat">
+  <button onclick="createNote()">Lagre notat</button>
+
+  <h2>Opprett todo‑liste</h2>
+  <input type="text" id="todoTitle" placeholder="Tittel">
+  <input type="text" id="todoItem" placeholder="Legg til element">
+  <button onclick="addTodoItem()">Legg til element</button>
+  <button onclick="createTodo()">Lagre todo‑liste</button>
+  <ul id="todoTempList"></ul>
+
+  <h2>Notater</h2>
+  <ul id="notesList"></ul>
+
+  <h2>Todo‑lister</h2>
+  <div id="todosList"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
