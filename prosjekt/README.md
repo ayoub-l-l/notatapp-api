@@ -1,18 +1,150 @@
-ette prosjektet er en enkel nettside der du kan skrive notater og lage en todo-liste. Når du skriver noe og trykker på knappene, blir det lagt til i en liste på siden.
+# Notatapplikasjon med Todo-lister
 
-Koden er skrevet i JavaScript og bruker også HTML for å vise ting på skjermen.
+## Beskrivelse av løsningen
 
-Når siden starter, henter programmet lagrede data fra nettleseren. Dette gjøres med localStorage. Dataene er lagret som JSON, som er en måte å lagre informasjon på i tekstform.
+Dette prosjektet er en enkel notatapplikasjon som lar brukeren:
 
-Programmet har en funksjon som heter render. Den sørger for at alt som er lagret blir vist på skjermen. Først tømmes listene, og så legges alle notater og oppgaver inn igjen. Dette gjør at siden alltid viser riktig informasjon.
+* Opprette tekstnotater med tittel og innhold
+* Opprette todo-lister med tittel og flere oppgaver
+* Se lagrede notater og todo-lister
 
-Når du lager et nytt notat, henter programmet teksten fra input-feltet. Hvis feltet er tomt, skjer ingenting. Hvis det er tekst, blir det laget et objekt med teksten. Dette objektet legges inn i en liste, og listen lagres i localStorage. Etterpå oppdateres siden slik at du ser notatet.
+Applikasjonen består av:
 
-Todo-listen fungerer på samme måte. Når du legger til en oppgave, blir den lagret med en ekstra verdi som heter "done". Den sier om oppgaven er ferdig eller ikke.
+* **Klient (frontend):** HTML, CSS og JavaScript
+* **Server (backend):** Node.js med Express
+* **Database:** Data lagres i en lokal JSON-fil (`data.json`)
 
-Hver todo har også en checkbox. Når du klikker på den, blir oppgaven markert som ferdig. Programmet lagrer dette, og oppdaterer listen på nytt.
+Klienten kommuniserer med serveren gjennom et **REST API** ved hjelp av `fetch()`.
 
-Alt i programmet henger sammen slik:
-Først lastes siden, så hentes data, så vises de på skjermen. Når du legger til noe nytt, blir det lagret og vist med en gang.
+## Teknologier brukt
 
-Dette prosjektet viser hvordan man kan bruke JavaScript til å lage en enkel app som lagrer data i nettleseren uten å bruke en server.
+* HTML
+* CSS
+* JavaScript (vanlig JS)
+* Node.js
+* Express
+
+## Filstruktur
+
+```
+prosjekt
+│ server.js
+│ data.json
+│ package.json
+└ public/
+   ├ index.html
+   ├ script.js
+   └ style.css
+```
+
+## Hvordan installere og starte serveren
+
+1. Installer Node.js (hvis ikke allerede installert)
+   https://nodejs.org/
+
+2. Åpne terminal i prosjektmappen
+
+3. Installer nødvendige pakker:
+
+```bash
+npm install express body-parser
+```
+
+4. Start serveren:
+
+```bash
+node server.js
+```
+
+5. Du vil se:
+
+```
+Server kjører på http://localhost:3000
+```
+
+## Hvordan starte klienten
+
+1. Åpne nettleseren
+2. Gå til:
+
+```
+http://localhost:3000
+```
+
+3. Nå kan du:
+
+* Lage notater
+* Lage todo-lister
+* Se lagret data
+
+## Eksempler på bruk av API
+
+### Opprette et notat
+
+**POST /notes**
+
+Body:
+
+```json
+{
+  "title": "Handleliste",
+  "text": "Kjøp melk"
+}
+```
+
+### Hente alle notater
+
+**GET /notes**
+
+Svar:
+
+```json
+[
+  {
+    "title": "Handleliste",
+    "text": "Kjøp melk"
+  }
+]
+```
+
+### Opprette en todo-liste
+
+**POST /todos**
+
+Body:
+
+```json
+{
+  "title": "Ukens oppgaver",
+  "items": [
+    { "text": "Vaske rommet", "done": false },
+    { "text": "Handle mat", "done": false }
+  ]
+}
+```
+
+### Hente alle todo-lister
+
+**GET /todos**
+
+Svar:
+
+```json
+[
+  {
+    "title": "Ukens oppgaver",
+    "items": [
+      { "text": "Vaske rommet", "done": false },
+      { "text": "Handle mat", "done": false }
+    ]
+  }
+]
+```
+
+## Funksjonalitet
+
+* Lage og lagre notater
+* Lage og lagre todo-lister
+* Flere elementer per todo-liste
+* Vise lagrede data i nettleser
+* Data lagres permanent i `data.json`
