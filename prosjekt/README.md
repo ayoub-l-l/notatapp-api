@@ -1,49 +1,24 @@
-# Notatapplikasjon med Todo-lister
+# Notatapplikasjon
 
 ## Beskrivelse av løsningen
 
-Dette prosjektet er en enkel notatapplikasjon som lar brukeren:
+Dette er en enkel notatapplikasjon der brukeren kan:
 
-* Opprette tekstnotater med tittel og innhold
+* Opprette tekstnotater med tittel og tekst
 * Opprette todo-lister med tittel og flere oppgaver
 * Se lagrede notater og todo-lister
 
-Applikasjonen består av:
+Applikasjonen består av en klient (HTML, CSS og JavaScript) og en server (Node.js med Express).
+Data lagres i en JSON-fil (`data.json`) slik at informasjonen ikke forsvinner når siden oppdateres.
 
-* **Klient (frontend):** HTML, CSS og JavaScript
-* **Server (backend):** Node.js med Express
-* **Database:** Data lagres i en lokal JSON-fil (`data.json`)
+Klienten kommuniserer med serveren gjennom et REST API ved hjelp av `fetch()`.
 
-Klienten kommuniserer med serveren gjennom et **REST API** ved hjelp av `fetch()`.
-
-## Teknologier brukt
-
-* HTML
-* CSS
-* JavaScript (vanlig JS)
-* Node.js
-* Express
-
-## Filstruktur
-
-```
-prosjekt
-│ server.js
-│ data.json
-│ package.json
-└ public/
-   ├ index.html
-   ├ script.js
-   └ style.css
-```
+---
 
 ## Hvordan installere og starte serveren
 
-1. Installer Node.js (hvis ikke allerede installert)
-   https://nodejs.org/
-
+1. Installer Node.js fra https://nodejs.org/
 2. Åpne terminal i prosjektmappen
-
 3. Installer nødvendige pakker:
 
 ```bash
@@ -56,11 +31,13 @@ npm install express body-parser
 node server.js
 ```
 
-5. Du vil se:
+5. Serveren kjører på:
 
 ```
-Server kjører på http://localhost:3000
+http://localhost:3000
 ```
+
+---
 
 ## Hvordan starte klienten
 
@@ -71,80 +48,44 @@ Server kjører på http://localhost:3000
 http://localhost:3000
 ```
 
-3. Nå kan du:
+3. Nå kan du bruke applikasjonen til å lage og vise notater og todo-lister
 
-* Lage notater
-* Lage todo-lister
-* Se lagret data
+---
 
 ## Eksempler på bruk av API
 
-### Opprette et notat
+### Opprette notat
 
-**POST /notes**
+POST /notes
 
-Body:
+```json
+{
+  "title": "Test",
+  "text": "Hei"
+}
+```
+
+### Hente notater
+
+GET /notes
+
+---
+
+### Opprette todo-liste
+
+POST /todos
 
 ```json
 {
   "title": "Handleliste",
-  "text": "Kjøp melk"
-}
-```
-
-### Hente alle notater
-
-**GET /notes**
-
-Svar:
-
-```json
-[
-  {
-    "title": "Handleliste",
-    "text": "Kjøp melk"
-  }
-]
-```
-
-### Opprette en todo-liste
-
-**POST /todos**
-
-Body:
-
-```json
-{
-  "title": "Ukens oppgaver",
   "items": [
-    { "text": "Vaske rommet", "done": false },
-    { "text": "Handle mat", "done": false }
+    { "text": "Melk", "done": false }
   ]
 }
 ```
 
-### Hente alle todo-lister
+### Hente todo-lister
 
-**GET /todos**
+GET /todos
 
-Svar:
-
-```json
-[
-  {
-    "title": "Ukens oppgaver",
-    "items": [
-      { "text": "Vaske rommet", "done": false },
-      { "text": "Handle mat", "done": false }
-    ]
-  }
-]
-```
-
-## Funksjonalitet
-
-* Lage og lagre notater
-* Lage og lagre todo-lister
-* Flere elementer per todo-liste
-* Vise lagrede data i nettleser
-* Data lagres permanent i `data.json`
+---
