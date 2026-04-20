@@ -1,16 +1,12 @@
 {
   "notes": [
     {
-      "title": "l",
+      "title": "a",
       "text": "l"
     },
     {
-      "title": "a",
-      "text": "a"
-    },
-    {
-      "title": "a",
-      "text": "a"
+      "title": "oa",
+      "text": "oa"
     }
   ],
   "todos": [
@@ -28,6 +24,24 @@
       "items": [
         {
           "text": "a",
+          "done": false
+        }
+      ]
+    },
+    {
+      "title": "l",
+      "items": [
+        {
+          "text": "l",
+          "done": false
+        }
+      ]
+    },
+    {
+      "title": "ppp",
+      "items": [
+        {
+          "text": "pppp",
           "done": false
         }
       ]
